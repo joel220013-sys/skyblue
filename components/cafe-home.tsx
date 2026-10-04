@@ -253,12 +253,26 @@ const allMenuItems: MenuItem[] = [
   },
 ]
 
-const customerReviews = [
+interface CustomerReview {
+  name: string
+  role: string
+  rating: number
+  tag: string
+  comment: string
+  initials: string
+  date: string
+  video?: string
+  image?: string
+  images?: string[]
+}
+
+const customerReviews: CustomerReview[] = [
   {
     name: 'Sneha Patil',
     role: 'BIET College Student',
     rating: 5,
     tag: 'Regular Hangout',
+    images: ['/guest-bike.jpg', '/guest-insta.jpg'],
     comment: 'The Pink Sauce Pasta and Sky Blue Latte are literally the best in Davanagere. Perfect peaceful spot to study or chill with friends after college hours!',
     initials: 'SP',
     date: '2 days ago',
@@ -510,16 +524,29 @@ export function CafeHome() {
           {/* 4 Reviews Cards Grid */}
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
             {customerReviews.map((review, index) =>
-              review.video ? (
+              review.video || review.images || review.image ? (
                 <div
                   key={index}
                   className="group relative flex flex-col overflow-hidden rounded-3xl bg-white p-3.5 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)]"
                 >
                   <div className="relative h-full min-h-[300px] sm:min-h-[340px] w-full overflow-hidden rounded-2xl bg-[#123b52]/5">
-                    <LazyVideo
-                      src={review.video}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
+                    {review.video ? (
+                      <LazyVideo
+                        src={review.video}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : review.images ? (
+                      <AutoSliderImage
+                        images={review.images}
+                        alt={review.name || 'Sky Blue Cafe guest'}
+                      />
+                    ) : (
+                      <img
+                        src={review.image}
+                        alt={review.name || 'Sky Blue Cafe customer'}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    )}
                   </div>
                 </div>
               ) : (
