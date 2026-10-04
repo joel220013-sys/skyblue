@@ -216,6 +216,45 @@ const allMenuItems: MenuItem[] = [
   },
 ]
 
+const customerReviews = [
+  {
+    name: 'Sneha Patil',
+    role: 'BIET College Student',
+    rating: 5,
+    tag: 'Regular Hangout',
+    comment: 'The Pink Sauce Pasta and Sky Blue Latte are literally the best in Davanagere. Perfect peaceful spot to study or chill with friends after college hours!',
+    initials: 'SP',
+    date: '2 days ago',
+  },
+  {
+    name: 'Karthik Gowda',
+    role: 'Birthday Group',
+    rating: 5,
+    tag: 'Birthday Party',
+    comment: "Celebrated my friend's 20th birthday party here. The rooftop Sky Booth decor, balloon setup, and warm bakes were incredible. Everyone loved the vibe and food!",
+    initials: 'KG',
+    date: 'Last week',
+  },
+  {
+    name: 'Pooja & Friends',
+    role: 'Food Explorer',
+    rating: 5,
+    tag: 'Must Visit',
+    comment: 'The Chili Paneer and Crispy Peri-Peri Burger were super fresh and flavorful. The ambiance with soft lighting and music makes you want to stay for hours.',
+    initials: 'PF',
+    date: '2 weeks ago',
+  },
+  {
+    name: 'Dr. Abhishek M.',
+    role: 'Local Guide',
+    rating: 5,
+    tag: 'Coffee & Ambience',
+    comment: "A hidden gem near BIET. Clean aesthetic, friendly baristas, and genuine cafe quality. Definitely my favorite coffee spot whenever I'm in the area.",
+    initials: 'AM',
+    date: '1 month ago',
+  },
+]
+
 export function CafeHome() {
   const [activeCategory, setActiveCategory] = useState<Category>('all')
 
@@ -231,6 +270,7 @@ export function CafeHome() {
         <div className="hidden items-center gap-8 text-sm tracking-wide md:flex">
           <a href="#gallery" className="transition-colors hover:text-[#4f9ec0]">Gallery</a>
           <a href="#menu" className="transition-colors hover:text-[#4f9ec0]">Menu</a>
+          <a href="#reviews" className="transition-colors hover:text-[#4f9ec0]">Reviews</a>
           <a href="#visit" className="transition-colors hover:text-[#4f9ec0]">Visit us</a>
         </div>
       </nav>
@@ -418,19 +458,75 @@ export function CafeHome() {
           ))}
         </div>
 
-        {/* Menu Note Banner */}
-        <div className="mt-14 rounded-3xl border border-[#c5e3ec] bg-[#d8f0f6]/60 p-6 sm:p-8 text-center max-w-3xl mx-auto backdrop-blur-sm">
-          <p className="font-serif text-xl text-[#123b52]">Visiting with friends or celebrating a birthday?</p>
-          <p className="mt-2 text-xs sm:text-sm text-[#5d7c8d]">
-            All our dishes are prepared fresh to order. Customize your spice levels or ask for chef recommendations at the counter.
-          </p>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#visit"
-              className="inline-flex items-center gap-2 rounded-full bg-[#123b52] px-5 py-2.5 text-xs sm:text-sm font-medium text-white transition-all hover:bg-[#1a4e6b]"
-            >
-              Find Us Near BIET College
-            </a>
+      </section>
+
+      {/* Customer Reviews Section */}
+      <section id="reviews" className="border-y border-[#c5e3ec] bg-[#d8f0f6] px-6 py-16 lg:px-10 lg:py-24">
+        <div className="mx-auto max-w-7xl w-full">
+          {/* Header */}
+          <div className="mb-10 text-center max-w-2xl mx-auto">
+            <p className="mb-3 text-xs uppercase tracking-[0.32em] text-[#4f9ec0]">Customer Experiences · 4.9 ★ Rating</p>
+            <h2 className="font-serif text-4xl sm:text-5xl text-[#123b52] tracking-[-0.03em]">Loved by Our Guests</h2>
+            <p className="mt-3 text-sm leading-6 text-[#5d7c8d]">
+              What students, families, and birthday groups say about their time at Sky Blue Cafe.
+            </p>
+          </div>
+
+          {/* 4 Reviews Cards Grid */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {customerReviews.map((review, index) => (
+              <div
+                key={index}
+                className="group relative flex flex-col justify-between rounded-3xl bg-white/80 p-6 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)] hover:bg-white"
+              >
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-0.5 text-amber-400 text-sm">
+                      {[...Array(review.rating)].map((_, i) => (
+                        <span key={i}>★</span>
+                      ))}
+                    </div>
+                    <span className="rounded-full bg-[#d8f0f6] px-2.5 py-0.5 text-[10px] font-medium text-[#123b52] border border-[#b8e2ed]">
+                      {review.tag}
+                    </span>
+                  </div>
+
+                  <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#456879] italic">
+                    "{review.comment}"
+                  </p>
+                </div>
+
+                <div className="mt-6 flex items-center gap-3 border-t border-[#eaf6fb] pt-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#83c5db] to-[#123b52] text-xs font-semibold text-white shadow-xs">
+                    {review.initials}
+                  </div>
+                  <div>
+                    <h4 className="font-serif text-sm font-semibold text-[#123b52] leading-tight">
+                      {review.name}
+                    </h4>
+                    <p className="text-[11px] text-[#668391] mt-0.5">
+                      {review.role} · {review.date}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Visiting with friends / Birthday Banner */}
+          <div className="mt-14 rounded-3xl border border-[#c5e3ec] bg-white/75 p-6 sm:p-8 text-center max-w-3xl mx-auto backdrop-blur-sm shadow-xs">
+            <p className="font-serif text-2xl text-[#123b52]">Visiting with friends or celebrating a birthday?</p>
+            <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#5d7c8d]">
+              All our dishes are prepared fresh to order. Customize your spice levels or ask for chef recommendations at the counter.
+            </p>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+              <a
+                href="#visit"
+                className="inline-flex items-center gap-2 rounded-full bg-[#123b52] px-6 py-3 text-xs sm:text-sm font-medium text-white transition-all hover:bg-[#1a4e6b] hover:shadow-md"
+              >
+                Find Us Near BIET College
+              </a>
+            </div>
           </div>
         </div>
       </section>
