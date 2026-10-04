@@ -278,6 +278,7 @@ const customerReviews = [
     role: 'Food Explorer',
     rating: 5,
     tag: 'Must Visit',
+    video: '/cafe-reel-3.mp4',
     comment: 'The Chili Paneer and Crispy Peri-Peri Burger were super fresh and flavorful. The ambiance with soft lighting and music makes you want to stay for hours.',
     initials: 'PF',
     date: '2 weeks ago',
