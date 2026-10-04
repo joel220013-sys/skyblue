@@ -39,6 +39,43 @@ function AutoSliderImage({ images, alt }: { images: string[]; alt: string }) {
   )
 }
 
+function LazyVideo({ src, className }: { src: string; className?: string }) {
+  const videoRef = React.useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {})
+          } else {
+            video.pause()
+          }
+        })
+      },
+      { threshold: 0.15 }
+    )
+
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      loop
+      muted
+      playsInline
+      preload="metadata"
+      className={className}
+    />
+  )
+}
+
 type Category = 'all' | 'sandwiches' | 'pastas' | 'chinese' | 'desserts' | 'beverages'
 
 interface MenuItem {
@@ -345,12 +382,8 @@ export function CafeHome() {
               >
                 <div className="relative h-60 sm:h-64 lg:h-72 w-full overflow-hidden rounded-2xl bg-[#123b52]/5">
                   {item.type === 'video' ? (
-                    <video
+                    <LazyVideo
                       src={item.src}
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : item.type === 'slider' && item.images ? (
@@ -474,29 +507,26 @@ export function CafeHome() {
           </div>
 
           {/* 4 Reviews Cards Grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {customerReviews.map((review, index) => (
-              <div
-                key={index}
-                className={`group relative flex flex-col justify-between rounded-3xl bg-white/80 ${
-                  review.video ? 'p-3.5' : 'p-6'
-                } shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)] hover:bg-white`}
-              >
-                <div>
-                  {review.video && (
-                    <div className="relative h-60 sm:h-64 lg:h-72 w-full overflow-hidden rounded-2xl mb-3.5 bg-[#123b52]/5">
-                      <video
-                        src={review.video}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-                  )}
-
-                  <div className={review.video ? "px-1.5 pt-1" : ""}>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
+            {customerReviews.map((review, index) =>
+              review.video ? (
+                <div
+                  key={index}
+                  className="group relative flex flex-col overflow-hidden rounded-3xl bg-white p-3.5 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)]"
+                >
+                  <div className="relative h-full min-h-[300px] sm:min-h-[340px] w-full overflow-hidden rounded-2xl bg-[#123b52]/5">
+                    <LazyVideo
+                      src={review.video}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div
+                  key={index}
+                  className="group relative flex flex-col justify-between rounded-3xl bg-white p-6 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)]"
+                >
+                  <div>
                     <div className="flex items-center justify-between">
                       <div className="flex gap-0.5 text-amber-400 text-sm">
                         {[...Array(review.rating)].map((_, i) => (
@@ -508,27 +538,27 @@ export function CafeHome() {
                       </span>
                     </div>
 
-                    <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#456879] italic">
+                    <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#456879] italic">
                       "{review.comment}"
                     </p>
                   </div>
-                </div>
 
-                <div className={`mt-5 flex items-center gap-3 border-t border-[#eaf6fb] ${review.video ? 'px-1.5 pt-3' : 'pt-4'}`}>
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#83c5db] to-[#123b52] text-xs font-semibold text-white shadow-xs">
-                    {review.initials}
-                  </div>
-                  <div>
-                    <h4 className="font-serif text-sm font-semibold text-[#123b52] leading-tight">
-                      {review.name}
-                    </h4>
-                    <p className="text-[11px] text-[#668391] mt-0.5">
-                      {review.role} · {review.date}
-                    </p>
+                  <div className="mt-6 flex items-center gap-3 border-t border-[#eaf6fb] pt-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#83c5db] to-[#123b52] text-xs font-semibold text-white shadow-xs">
+                      {review.initials}
+                    </div>
+                    <div>
+                      <h4 className="font-serif text-sm font-semibold text-[#123b52] leading-tight">
+                        {review.name}
+                      </h4>
+                      <p className="text-[11px] text-[#668391] mt-0.5">
+                        {review.role} · {review.date}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
 
           {/* Visiting with friends / Birthday Banner */}
