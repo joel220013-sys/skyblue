@@ -231,6 +231,7 @@ const customerReviews = [
     role: 'Birthday Group',
     rating: 5,
     tag: 'Birthday Party',
+    video: '/cafe-reel-2.mp4',
     comment: "Celebrated my friend's 20th birthday party here. The rooftop Sky Booth decor, balloon setup, and warm bakes were incredible. Everyone loved the vibe and food!",
     initials: 'KG',
     date: 'Last week',
@@ -477,27 +478,44 @@ export function CafeHome() {
             {customerReviews.map((review, index) => (
               <div
                 key={index}
-                className="group relative flex flex-col justify-between rounded-3xl bg-white/80 p-6 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)] hover:bg-white"
+                className={`group relative flex flex-col justify-between rounded-3xl bg-white/80 ${
+                  review.video ? 'p-3.5' : 'p-6'
+                } shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)] hover:bg-white`}
               >
                 <div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex gap-0.5 text-amber-400 text-sm">
-                      {[...Array(review.rating)].map((_, i) => (
-                        <span key={i}>★</span>
-                      ))}
+                  {review.video && (
+                    <div className="relative h-60 sm:h-64 lg:h-72 w-full overflow-hidden rounded-2xl mb-3.5 bg-[#123b52]/5">
+                      <video
+                        src={review.video}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
                     </div>
-                    <span className="rounded-full bg-[#d8f0f6] px-2.5 py-0.5 text-[10px] font-medium text-[#123b52] border border-[#b8e2ed]">
-                      {review.tag}
-                    </span>
-                  </div>
+                  )}
 
-                  <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#456879] italic">
-                    "{review.comment}"
-                  </p>
+                  <div className={review.video ? "px-1.5 pt-1" : ""}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-0.5 text-amber-400 text-sm">
+                        {[...Array(review.rating)].map((_, i) => (
+                          <span key={i}>★</span>
+                        ))}
+                      </div>
+                      <span className="rounded-full bg-[#d8f0f6] px-2.5 py-0.5 text-[10px] font-medium text-[#123b52] border border-[#b8e2ed]">
+                        {review.tag}
+                      </span>
+                    </div>
+
+                    <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[#456879] italic">
+                      "{review.comment}"
+                    </p>
+                  </div>
                 </div>
 
-                <div className="mt-6 flex items-center gap-3 border-t border-[#eaf6fb] pt-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#83c5db] to-[#123b52] text-xs font-semibold text-white shadow-xs">
+                <div className={`mt-5 flex items-center gap-3 border-t border-[#eaf6fb] ${review.video ? 'px-1.5 pt-3' : 'pt-4'}`}>
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#83c5db] to-[#123b52] text-xs font-semibold text-white shadow-xs">
                     {review.initials}
                   </div>
                   <div>
