@@ -364,10 +364,10 @@ export function CafeHome() {
                 desc: "Warm daylight & quiet corners",
               },
               {
-                type: 'image',
-                src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80",
-                title: "Artisan Brews",
-                desc: "Hand-poured silky lattes",
+                type: 'slider',
+                images: ['/events-1.jpg', '/events-2.jpg', '/events-3.jpg'],
+                title: 'Events',
+                desc: 'Festivals, live DJs & celebrations',
               },
               {
                 type: 'video',
@@ -387,20 +387,20 @@ export function CafeHome() {
                 className="group relative overflow-hidden rounded-3xl bg-white/70 p-3.5 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)]"
               >
                 <div className="relative h-60 sm:h-64 lg:h-72 w-full overflow-hidden rounded-2xl bg-[#123b52]/5">
-                  {item.type === 'video' ? (
+                  {item.type === 'video' && item.src ? (
                     <LazyVideo
                       src={item.src}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : item.type === 'slider' && item.images ? (
                     <AutoSliderImage images={item.images} alt={item.title} />
-                  ) : (
+                  ) : item.src ? (
                     <img
                       src={item.src}
                       alt={item.title}
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                  )}
+                  ) : null}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#123b52]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </div>
                 <div className="p-3.5">
