@@ -297,15 +297,6 @@ const customerReviews: CustomerReview[] = [
     initials: 'PF',
     date: '2 weeks ago',
   },
-  {
-    name: 'Dr. Abhishek M.',
-    role: 'Local Guide',
-    rating: 5,
-    tag: 'Coffee & Ambience',
-    comment: "A hidden gem near BIET. Clean aesthetic, friendly baristas, and genuine cafe quality. Definitely my favorite coffee spot whenever I'm in the area.",
-    initials: 'AM',
-    date: '1 month ago',
-  },
 ]
 
 export function CafeHome() {
@@ -521,15 +512,15 @@ export function CafeHome() {
             </p>
           </div>
 
-          {/* 4 Reviews Cards Grid */}
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 items-stretch">
+          {/* Reviews Cards Grid */}
+          <div className="flex flex-wrap justify-center gap-6">
             {customerReviews.map((review, index) =>
               review.video || review.images || review.image ? (
                 <div
                   key={index}
-                  className="group relative flex flex-col overflow-hidden rounded-3xl bg-white p-3.5 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)]"
+                  className="group relative flex flex-col overflow-hidden rounded-3xl bg-white/70 p-3.5 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)] w-full sm:w-[calc(50%-12px)] lg:w-[calc((100%-72px)/4)] h-[346px] sm:h-[362px] lg:h-[394px]"
                 >
-                  <div className="relative h-full min-h-[300px] sm:min-h-[340px] w-full overflow-hidden rounded-2xl bg-[#123b52]/5">
+                  <div className="relative h-full w-full overflow-hidden rounded-2xl bg-[#123b52]/5">
                     {review.video ? (
                       <LazyVideo
                         src={review.video}
@@ -549,43 +540,7 @@ export function CafeHome() {
                     )}
                   </div>
                 </div>
-              ) : (
-                <div
-                  key={index}
-                  className="group relative flex flex-col justify-between rounded-3xl bg-white p-6 shadow-[0_8px_30px_rgba(18,59,82,0.06)] border border-[#c5e3ec] transition-transform duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_40px_rgba(18,59,82,0.12)]"
-                >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-0.5 text-amber-400 text-sm">
-                        {[...Array(review.rating)].map((_, i) => (
-                          <span key={i}>★</span>
-                        ))}
-                      </div>
-                      <span className="rounded-full bg-[#d8f0f6] px-2.5 py-0.5 text-[10px] font-medium text-[#123b52] border border-[#b8e2ed]">
-                        {review.tag}
-                      </span>
-                    </div>
-
-                    <p className="mt-4 text-xs sm:text-sm leading-relaxed text-[#456879] italic">
-                      "{review.comment}"
-                    </p>
-                  </div>
-
-                  <div className="mt-6 flex items-center gap-3 border-t border-[#eaf6fb] pt-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#83c5db] to-[#123b52] text-xs font-semibold text-white shadow-xs">
-                      {review.initials}
-                    </div>
-                    <div>
-                      <h4 className="font-serif text-sm font-semibold text-[#123b52] leading-tight">
-                        {review.name}
-                      </h4>
-                      <p className="text-[11px] text-[#668391] mt-0.5">
-                        {review.role} · {review.date}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )
+              ) : null
             )}
           </div>
 
